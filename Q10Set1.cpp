@@ -1,17 +1,33 @@
-int kidWithDamaged Toy (int N, int M, int K) {
+void max10()
 
-if(N
+{
 
-=
+int n; cin >> n;
 
-1) return 1;
+priority_queue<int, vector<int
 
-int pos= M % N;
+V greater<int>> pq;
 
-return (pos+ K 1 -
+for (int i = 0; i <n; i++)
 
-) == N ? (pos + K 1) (pos + K - 1 -
+{
 
-) % N;
+int x; cin >> x;
+
+pq.push(x);
+
+if (pq.size() > 10) pq.pop
+
+();
+
+}
+
+while (!pq.empty())
+
+{
+
+cout << pq.top() << pq.pop(); '";
+
+}
 
 }
