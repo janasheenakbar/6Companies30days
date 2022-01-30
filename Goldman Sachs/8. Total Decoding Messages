@@ -1,0 +1,39 @@
+class Solution {
+	public:
+	    int t[10001];
+	    int mod = 1000000007;
+	    int solve(string s, int n){
+	        if(t[n] != -1)return t[n];
+	        
+	        if(n == 0)return t[n] = 1;
+	        if(n == 1){
+	            if(s[0] == '0')return t[n] = 0;
+	            else return t[n] = 1;
+	        }
+	        if(s[n-1] == '0'){
+	            if(s[n-2] == '1' || s[n-2] == '2'){
+	                return t[n] = solve(s,n-2);
+	            }else{
+	                return t[n] = 0;
+	            }
+	        }
+	        int cnt = 0;
+	        cnt  = (cnt + solve(s,n-1))%mod;
+	        if(s[n-2] == '1'){
+	            if(s[n-1] >= '1' && s[n-1] <= '9'){
+	                cnt = (cnt + solve(s,n-2))%mod;
+	            }
+	        }else if(s[n-2] == '2'){
+	            if(s[n-1] >= '1' && s[n-1] <= '6'){
+	                cnt = (cnt + solve(s,n-2))%mod;
+	            }
+	        }
+	        return t[n] = cnt%mod;
+	    }
+		int CountWays(string str){
+		    // Code here
+		    memset(t,-1,sizeof(t));
+		    return solve(str,str.size());
+		}
+
+};

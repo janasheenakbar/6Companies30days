@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define endl "\n"
+#define MOD 1000000007
+#define clr(val) memset(val, 0, sizeof(val))
+#define OJ                            \
+    freopen("input.txt", "r", stdin); \
+    freopen("output.txt", "w", stdout);
+#define FastIO                        \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(NULL);                    \
+    cout.tie(NULL);
+
+signed main()
+{
+    //OJ;
+    FastIO;
+    int t;
+    cin >> t;
+    while(t--){
+        int n,m,k;
+        cin >> n >> m >> k;
+        cout << ((m%n + (k-1))%n == 0 ? 0 : (m%n + (k-1))%n) << endl;
+    }
+    return 0;
+}

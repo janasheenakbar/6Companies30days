@@ -1,0 +1,41 @@
+    string decodedString(string s){
+        // code here
+        stack<char>st;
+        string t,aux;
+        for(int i = 0; i < s.size();i++){
+            if(s[i] == ']'){
+                t = "";
+                while(st.top() != '['){
+                    t += st.top();
+                    st.pop();
+                }
+                st.pop();
+                reverse(t.begin(),t.end());
+                aux = "";
+                while(!st.empty() && (st.top() >= '0' && st.top() <= '9')){
+                    aux += st.top();
+                    st.pop();
+                }
+                reverse(aux.begin(),aux.end());
+                int cnt = stoi(aux);
+                aux = t;
+                while(cnt > 1){
+                    t += aux;
+                    cnt--;
+                }
+                for(int j = 0;j < t.size();j++){
+                    st.push(t[j]);
+                }
+                
+            }else{
+                st.push(s[i]);
+            }
+        }
+        t = "";
+        while(!st.empty()){
+            t += st.top();
+            st.pop();
+        }
+        reverse(t.begin(),t.end());
+        return t;
+    }

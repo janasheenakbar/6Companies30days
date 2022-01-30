@@ -1,0 +1,39 @@
+class Solution{
+  public:
+    vector<vector<string> > Anagrams(vector<string>& string_list) {
+        //code here
+        vector<unordered_map<char,int> >mp_vec;
+        for(int i = 0;i < string_list.size();i++){
+            unordered_map<char,int>mp;
+            for(int j = 0; j < string_list[i].size();j++){
+                mp[string_list[i][j]]++;
+            }
+            mp_vec.push_back(mp);
+        }
+        vector<bool>group(string_list.size(), false);
+        vector<vector<string> >res;
+        for(int i = 0 ;i < string_list.size();i++){
+            if(group[i] == false){
+                vector<string>grp;
+                grp.push_back(string_list[i]);
+                for(int j = i+1;j < string_list.size();j++){
+                    if(string_list[i].size() == string_list[j].size()){
+                        bool anagram = true;
+                        for(auto it : mp_vec[i]){
+                            if(mp_vec[j][it.first] != it.second){
+                                anagram = false;
+                                break;
+                            }
+                        }
+                        if(anagram){
+                            grp.push_back(string_list[j]);
+                            group[j] = true;
+                        }
+                    }
+                }
+                res.push_back(grp);
+            }
+        }
+        return res;
+    }
+};

@@ -1,0 +1,40 @@
+string printMinNumberForPattern(string s){
+        // code here 
+        int n = s.size();
+        vector<pair<char,int>>v;
+        int cnt = 1;
+        for(int i = 1; i < n;i++){
+            if(s[i] == s[i-1])cnt++;
+            else{
+                v.push_back({s[i-1],cnt});
+                cnt = 1;
+            }
+        }
+        v.push_back({s[n-1],cnt});
+        string res;
+        int val = 1;
+        int set_d = 0;
+        for(auto it : v){
+            string temp;
+            if(it.first == 'I'){
+                for(int i = 0; i < it.second;i++){
+                    temp += to_string(val);
+                    val++;
+                }
+            }else{
+                set_d++;
+                if(set_d >= 2){
+                    res.pop_back();
+                    val--;
+                }
+                for(int i = 0; i <= it.second;i++){
+                    temp += to_string(val);
+                    val++;
+                }
+                reverse(temp.begin(),temp.end());
+            }
+            res += temp;
+        }
+        if(v.size() == 1 && v[0].first == 'I')res += to_string(val);
+        return res;
+    }
