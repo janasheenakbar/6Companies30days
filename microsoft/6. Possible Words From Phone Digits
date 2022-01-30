@@ -1,0 +1,36 @@
+class Solution
+{
+    public:
+    //Function to find list of all words possible by pressing given numbers.
+    string getString(int n){
+        if(n==2)return"abc";
+        if(n==3)return"def";
+        if(n==4)return"ghi";
+        if(n==5)return"jkl";
+        if(n==6)return"mno";
+        if(n==7)return"pqrs";
+        if(n==8)return"tuv";
+        if(n==9)return"wxyz";
+    }
+    vector<string> possibleWords(int a[], int N)
+    {
+        //Your code here
+        vector<string>v;
+        if(N==1){
+            string s = getString(a[0]);
+            for(int i=0;i<s.length();i++){
+                string t = "";
+                v.push_back(t+s[i]);
+            }
+            return v;
+        }
+        vector<string> v1 = possibleWords(a,N-1);
+        string s = getString(a[N-1]);
+        for(int i=0;i<v1.size();i++){
+            for(int j=0;j<s.length();j++){
+                v.push_back(v1[i] + s[j]);
+            }
+        }
+        return v;
+    }
+};

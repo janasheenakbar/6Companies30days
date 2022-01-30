@@ -1,0 +1,21 @@
+vector<string> generate(int n)
+{
+	// Your code here
+	vector<string>v;
+	queue<string>q;
+	q.push("1");
+	for(int i = 1; i <= n;i += 2){
+	    string s = q.front();
+	    q.pop();
+	    v.push_back(s);
+	    q.push(s+"0");
+	    q.push(s+"1");
+	}
+	while(!q.empty()){
+	    v.push_back(q.front());
+	    q.pop();
+	}
+	v.pop_back();
+	if(n&1)v.pop_back();
+	return v;
+}

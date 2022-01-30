@@ -1,0 +1,15 @@
+int res = 0;
+int sumSubtree(Node* root, int x){
+    if(root == NULL)return 0;
+    int sum = root->data + sumSubtree(root->left,x) + sumSubtree(root->right,x);
+    if(sum == x)res++;
+    return sum;
+}
+int countSubtreesWithSumX(Node* root, int x)
+{
+	// Code here
+	res = 0;
+    sumSubtree(root,x);
+    return res;
+	
+}

@@ -1,0 +1,36 @@
+class Solution {
+public:
+
+	bool isPossible(int n, vector<pair<int, int> >& prerequisites) {
+	    // Code here
+	    vector<vector<int>> adj(n);
+	    vector<int>indeg(n, 0);
+	    for(auto it : prerequisites){
+	        adj[it.second].push_back(it.first);
+	        indeg[it.first]++;
+	    }
+	    queue<int>q;
+	    vector<bool>visited(n, false);
+	    for(int i = 0 ;i < n;i++){
+	        if(indeg[i] == 0){
+	            q.push(i);
+	            visited[i] = true;
+	        }
+	    }
+	    while(!q.empty()){
+	        int curr = q.front();
+	        q.pop();
+	        for(auto it : adj[curr]){
+	            indeg[it]--;
+	            if(indeg[it] == 0){
+	                visited[it] = true;
+	                q.push(it);
+	            }
+	        }
+	    }
+	    for(int i = 0 ;i < n;i++){
+	        if(visited[i] == false)return false;
+	    }
+	    return true;
+	}
+};

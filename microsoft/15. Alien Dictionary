@@ -1,0 +1,44 @@
+class Solution{
+    public:
+    string topoSort(vector<char>adj[],int k,vector<int>indeg){
+        queue<char>q;
+        string res;
+        for(int i = 0 ;i < k;i++){
+            if(indeg[i] == 0){
+                q.push(char('a' + i));
+            }
+        }
+        while(!q.empty()){
+            char curr = q.front();
+            res += curr;
+            q.pop();
+            for(auto it : adj[curr-'a']){
+                indeg[it-'a']--;
+                if(indeg[it - 'a'] == 0){
+                    q.push(it);
+                }
+            }
+        }
+        return res;
+        
+    }
+    string findOrder(string dict[], int n, int k) {
+        //code here
+        vector<char>adj[k];
+        vector<int>indeg(k,0);
+        for(int i = 0 ; i < n-1;i++){
+            string w1 = dict[i],w2 = dict[i+1];
+            int p1 = 0,p2 = 0;
+            while(p1 < w1.size() && p2 < w2.size()){
+                if(w1[p1] != w2[p2]){
+                    adj[w1[p1] - 'a'].push_back(w2[p2]);
+                    indeg[w2[p2] - 'a']++;
+                    break;
+                }
+                p1++;p2++;
+            }            
+        }
+        
+        return topoSort(adj,k,indeg);
+    }
+};
