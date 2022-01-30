@@ -1,0 +1,34 @@
+class Solution {
+  public:
+    
+    int height(Node *root){
+        if(root == NULL)return 0;
+        return 1 + max(height(root->left),height(root->right));
+    }
+    
+    int dfs(Node *root , int target,int &res){
+        if(root == NULL)return 0;
+        if(root->data == target){
+            res = max(height(root->left),height(root->right));
+            return 1;
+        }
+        int left_ = dfs(root->left,target,res);
+        if(left_ > 0){
+            res = max(res,left_ + height(root->right));
+            return left_ + 1;
+        }
+        int right_ = dfs(root->right,target,res);
+        if(right_ > 0){
+            res = max(res,right_ + height(root->left));
+            return right_ + 1;
+        }
+        return 0;
+    }
+    int minTime(Node* root, int target) 
+    {
+        // Your code goes here
+        int res = INT_MIN;
+        dfs(root,target,res);
+        return res;
+    }
+};

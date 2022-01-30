@@ -1,0 +1,25 @@
+class Solution {
+	public:
+		string FirstNonRepeating(string A){
+		    // Code here
+		    pair<int,int> hash[26];
+		    string res;
+		    for(int i = 0; i < A.size();i++){
+		        pair<int,int> curr = hash[A[i] - 'a'];
+		        curr.first += 1;
+		        curr.second = i;
+		        hash[A[i] - 'a'] = curr;
+		        char r = '#';
+		        int min_i = INT_MAX;
+		        for(int j = 0; j < 26;j++){
+		            if(hash[j].first == 1 && min_i > hash[j].second){
+		                r = 'a' + j;
+		                min_i = hash[j].second;
+		            }
+		        }
+		        res += r;
+		    }
+		    return res;
+		}
+
+};

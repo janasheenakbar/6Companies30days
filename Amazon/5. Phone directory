@@ -1,0 +1,76 @@
+class Solution{
+public:
+
+    struct TrieNode{
+        TrieNode *child[26];
+        bool isEnd;
+        TrieNode(){
+            isEnd = false;
+            for(int i =0 ;i < 26;i++){
+                child[i] = NULL;
+            }
+        }
+    };
+    
+    void insert(string s, TrieNode *root){
+        TrieNode *curr = root;
+        for(int i = 0; i < s.length();i++){
+            int ind = s[i] - 'a';
+            if(curr->child[ind] == NULL){
+                curr->child[ind] = new TrieNode();
+            }
+            curr = curr->child[ind];
+        }
+        curr->isEnd = true;
+        return;
+    }
+    vector<string> print(TrieNode *root){
+        vector<string>res;
+        if(root->isEnd == true)res.push_back("");
+        for(int i = 0 ;i < 26;i++){
+            if(root->child[i] != NULL){
+                char c = 'a' + i;
+                vector<string>curr = print(root->child[i]);
+                for(auto it : curr){
+                    it = c + it;
+                    res.push_back(it);
+                }
+            }
+        }
+        return res;
+    }
+    
+    vector<string> prefixSearch(TrieNode *root,string pre){
+        TrieNode *curr = root;
+        vector<string> res;
+        for(int i = 0 ; i < pre.length();i++){
+            int ind = pre[i] - 'a';
+            if(curr->child[ind] == NULL){
+                res.push_back("0");
+                return res;
+            }
+            curr = curr->child[ind];
+        }
+        res = print(curr);
+        for(int i = 0 ;i < res.size();i++){
+            res[i] = pre + res[i];
+        }
+        return res;
+    }
+    vector<vector<string>> displayContacts(int n, string contact[], string s)
+    {
+        // code here
+        TrieNode *root = new TrieNode();
+        for(int i = 0 ;i < n;i++){
+            insert(contact[i],root);
+        }
+        vector<vector<string>> res;
+        string pre;
+        for(int i = 0 ;i < s.length();i++){
+            pre += s[i];
+            vector<string>curr = prefixSearch(root,pre);
+            res.push_back(curr);
+        }
+        return res;
+    }
+};

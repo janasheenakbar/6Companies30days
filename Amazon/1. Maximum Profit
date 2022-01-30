@@ -1,0 +1,27 @@
+class Solution {
+  public:
+  
+    int dp[201][501];
+    
+    int solve(int k,int n,int a[]){
+        
+        if(dp[k][n] != -1)return dp[k][n];
+        
+        if(k == 0)return 0;
+        if(n == 1)return 0;
+        int curr_max = 0;
+        for(int i = 0; i < n-1;i++){
+            if(a[i] < a[n-1]){
+                curr_max = max(curr_max, (a[n-1] - a[i]) + solve(k-1,i+1,a));
+            }
+        }
+        return dp[k][n] = max(curr_max , solve(k,n-1,a));
+    }
+    
+    int maxProfit(int k, int n, int a[]) {
+        // code here
+        memset(dp,-1,sizeof(dp));
+        return solve(k,n,a);
+    }
+    
+};

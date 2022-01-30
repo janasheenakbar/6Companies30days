@@ -1,0 +1,44 @@
+class Solution
+{
+    public:
+    //Function to serialize a tree and return a list containing nodes of tree.
+    void serializeMain(Node *root,vector<int> &res){
+        if(root == NULL){
+            res.push_back(-1);
+            return;
+        }
+        res.push_back(root->data);
+        serializeMain(root->left,res);
+        serializeMain(root->right,res);
+        return;
+    }
+    vector<int> serialize(Node *root) 
+    {
+        //Your code here
+        vector<int>res;
+        serializeMain(root,res);
+        return res;
+    }
+    
+    //Function to deserialize a list and construct the tree.
+    int index;
+    Node * deSerializeMain(vector<int> &A)
+    {
+       //Your code here
+        if(index == A.size())return NULL;
+        if(A[index] == -1){
+            index++;
+            return NULL;
+        }
+        Node *root = new Node(A[index]);
+        index++;
+        root->left = deSerializeMain(A);
+        root->right = deSerializeMain(A);
+        return root;
+    }
+    
+    Node * deSerialize(vector<int> &A){
+        index = 0;
+        return deSerializeMain(A);
+    }
+};
