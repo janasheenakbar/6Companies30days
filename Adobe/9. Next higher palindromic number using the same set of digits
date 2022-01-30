@@ -1,0 +1,18 @@
+class Solution{
+  public:
+    string nextPalin(string n) { 
+        //complete the function here
+        char m = 'a';
+        int size = n.size()/2;
+        if(n.size()&1)m = n[size];
+        n = n.substr(0,size);
+        bool poss = next_permutation(n.begin(),n.end());
+        if(!poss)return "-1";
+        if(m != 'a')n += m;
+        for(int i = size-1;i >= 0;i--){
+            n += n[i];
+        }
+        return n;
+        
+    }
+};

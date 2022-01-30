@@ -1,0 +1,41 @@
+class Solution
+{
+    public:
+    
+    vector<string> solve(int n,vector<vector<string>> &dp){
+        if(dp[n].size() != 0)return dp[n];
+        vector<string>res;
+        if(n == 1){
+            res.push_back("()");
+            return dp[n] = res;
+        }
+        res = solve(n-1,dp);
+        unordered_set<string>s;
+        for(int i = 0; i < res.size();i++){
+            res[i] = "("+res[i]+")";
+            s.insert(res[i]);
+        }
+        vector<string>p1,p2;
+        for(int i = 1;i < n;i++){
+            p1 = solve(i,dp);
+            p2 = solve(n-i,dp);
+            for(auto it : p1){
+                for(auto it1 : p2){
+                    if(s.find(it+it1) == s.end()){
+                        res.push_back(it + it1);
+                        s.insert(it+it1);
+                    }
+                }
+            }
+        }
+        return dp[n] = res;
+    }
+    
+    vector<string> AllParenthesis(int n) 
+    {
+        // Your code goes here
+        vector<vector<string>> dp(13);
+        
+        return solve(n,dp);
+    }
+};

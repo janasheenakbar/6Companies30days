@@ -1,0 +1,17 @@
+class Solution{
+    public:
+    string amendSentence (string s)
+    {
+        // your code here
+        string res;
+        for(int i = 0 ;i < s.size();i++){
+            if(s[i] >= 'A' && s[i] <= 'Z'){
+                if(i != 0)res += " ";
+                res += char(s[i] + 32);
+            }else{
+                res += s[i];
+            }
+        }
+        return res;
+    }
+};

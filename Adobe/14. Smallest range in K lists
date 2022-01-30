@@ -1,0 +1,32 @@
+typedef pair<int,int> pi;
+typedef pair<int,pair<int,int>> ppi;
+class Solution{
+    public:
+    pair<int,int> findSmallestRange(int arr[][N], int n, int k)
+    {
+          //code here
+          int curr_min = INT_MAX , curr_max = INT_MIN;
+          pi res;
+          priority_queue<ppi,vector<ppi>,greater<ppi>>minh;
+          for(int i = 0 ; i < k;i++){
+              curr_min = min(curr_min,arr[i][0]);
+              curr_max = max(curr_max,arr[i][0]);
+              minh.push({arr[i][0],{i,0}});
+          }
+          res = {curr_min,curr_max};
+          int diff = curr_max - curr_min;
+          while(true){
+              ppi ele = minh.top();
+              minh.pop();
+              if(ele.second.second == n-1)break;
+              curr_max = max(curr_max,arr[ele.second.first][ele.second.second + 1]);
+              minh.push({arr[ele.second.first][ele.second.second + 1] , {ele.second.first,ele.second.second + 1}});
+              curr_min = minh.top().first;
+              if(diff > curr_max - curr_min){
+                  diff = curr_max - curr_min;
+                  res = {curr_min,curr_max};
+              }
+          }
+          return res;
+    }
+};

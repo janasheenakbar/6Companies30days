@@ -1,0 +1,25 @@
+class Solution{
+  public:
+  
+    //Function to return the name of candidate that received maximum votes.
+    vector<string> winner(string arr[],int n)
+    {
+        // Your code here
+        // Return the string containing the name and an integer
+        // representing the number of votes the winning candidate got
+        map<string ,int>mp;
+        for(int i=0;i<n;i++){
+            mp[arr[i]]++;
+        }
+        string name;
+        int max_vote = 0;
+        for(auto it : mp){
+            if(it.second > max_vote){
+                name = it.first;
+                max_vote = it.second;
+            }
+        }
+        vector<string>res = {name,to_string(max_vote)};
+        return res;
+    }
+};

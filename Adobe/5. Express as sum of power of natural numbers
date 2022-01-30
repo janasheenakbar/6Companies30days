@@ -1,0 +1,31 @@
+class Solution{
+    public:
+    int dp[1001][1001];
+    int mod = 1000000007;
+    int solve(vector<int> arr, int n, int sum){
+        if(dp[n][sum] != -1)return dp[n][sum];
+        
+        if(sum == 0)return dp[n][sum] = 1;
+        if(n == 0) return dp[n][sum] = 0;
+        
+        if(sum < arr[n-1]){
+            return dp[n][sum] = solve(arr,n-1,sum)%mod;
+        }else{
+            return dp[n][sum] = (solve(arr,n-1,sum)%mod + solve(arr,n-1,sum - arr[n-1])%mod)%mod;
+        }
+    }
+    
+    int numOfWays(int n, int x)
+    {
+        // code here
+        memset(dp,-1,sizeof(dp));
+        vector<int>arr;
+        int val = 1,p = 1;
+        while(p <= n){
+            arr.push_back(p);
+            val++;
+            p = (int)pow(val,x);
+        }
+        return solve(arr,arr.size(),n);
+    }
+};
