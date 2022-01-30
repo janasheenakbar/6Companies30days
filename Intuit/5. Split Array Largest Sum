@@ -1,0 +1,29 @@
+class Solution {
+public:
+    
+    int dp[1001][51];
+    
+    int solve(vector<int>&arr , int ind ,int m){
+        int n = arr.size()-1;
+        if(dp[ind][m] != -1)return dp[ind][m];
+        if(m == 1){
+            return dp[ind][m] = arr[n] - arr[ind];
+        }
+        int min_ = INT_MAX;
+        for(int i = ind; i <= n - m;i++){
+            int curr = arr[i+1] - arr[ind];
+            min_ = min(min_,max(solve(arr,i+1,m-1),curr));
+            if(curr >= min_)break;
+        }
+        return dp[ind][m] = min_;
+    }
+    
+    int splitArray(vector<int>& nums, int m) {
+        memset(dp,-1,sizeof(dp));
+        vector<int>prefixSum(nums.size()+1,0);
+        for(int i = 0; i < nums.size();i++){
+            prefixSum[i+1] = prefixSum[i] + nums[i];
+        }
+        return solve(prefixSum,0,m);
+    }
+};

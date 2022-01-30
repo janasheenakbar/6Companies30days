@@ -1,0 +1,30 @@
+class Solution
+{
+    public:
+    //Function to find the largest number after k swaps.
+    string findMaximumNum(string str, int k)
+    {
+       // code here.
+       if(str.size() == 1)return str;
+       if(k == 0)return str;
+       char max_ = str[0];
+       for(int i = 1;i < str.size();i++){
+           max_ = max(max_,str[i]);
+       }
+       string res = str;
+       if(max_ == str[0]){
+           str.erase(str.begin());
+           res = max_ + findMaximumNum(str,k);
+           return res;
+       }
+       for(int i = 1; i < str.size();i++){
+           if(max_ == str[i]){
+               string t = str;
+               t[i] = t[0];
+               t.erase(t.begin());
+               res = max(res, max_ + findMaximumNum(t,k-1));
+           }
+       }
+       return res;
+    }
+};

@@ -1,0 +1,84 @@
+class Solution {
+public:
+    
+    bool check(int x,int y,int m,int n){
+        if(x >= 0 && x < m && y >=0 && y < n)return true;
+        return false;
+    }
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+        int m = heights.size(),n = heights[0].size();
+        vector<vector<bool>> pvisited(m , vector<bool>(n , false));
+        queue<pair<int,int>>q;
+        for(int i = 0 ;i < m;i++){
+            pvisited[i][0] = true;
+            q.push({i,0});
+        }
+        for(int i = 1; i < n ;i++){
+            pvisited[0][i] = true;
+            q.push({0,i});
+        }
+        while(!q.empty()){
+            pair<int,int>curr = q.front();
+            q.pop();
+            int x = curr.first,y = curr.second;
+            if(check(x+1,y,m,n) && !pvisited[x+1][y] && heights[x+1][y] >= heights[x][y]){
+                pvisited[x+1][y] = true;
+                q.push({x+1,y});
+            }
+            if(check(x-1,y,m,n) && !pvisited[x-1][y] && heights[x-1][y] >= heights[x][y]){
+                pvisited[x-1][y] = true;
+                q.push({x-1,y});
+            }
+            if(check(x,y+1,m,n) && !pvisited[x][y+1] && heights[x][y+1] >= heights[x][y]){
+                pvisited[x][y+1] = true;
+                q.push({x,y+1});
+            }
+            if(check(x,y-1,m,n) && !pvisited[x][y-1] && heights[x][y-1] >= heights[x][y]){
+                pvisited[x][y-1] = true;
+                q.push({x,y-1});
+            }
+        }
+        vector<vector<bool>> avisited(m , vector<bool>(n , false));
+        for(int i = 0 ;i < m;i++){
+            avisited[i][n-1] = true;
+            q.push({i,n-1});
+        }
+        for(int i = 0; i < n-1 ;i++){
+            avisited[m-1][i] = true;
+            q.push({m-1,i});
+        }
+        while(!q.empty()){
+            pair<int,int>curr = q.front();
+            q.pop();
+            int x = curr.first,y = curr.second;
+            if(check(x+1,y,m,n) && !avisited[x+1][y] && heights[x+1][y] >= heights[x][y]){
+                avisited[x+1][y] = true;
+                q.push({x+1,y});
+            }
+            if(check(x-1,y,m,n) && !avisited[x-1][y] && heights[x-1][y] >= heights[x][y]){
+                avisited[x-1][y] = true;
+                q.push({x-1,y});
+            }
+            if(check(x,y+1,m,n) && !avisited[x][y+1] && heights[x][y+1] >= heights[x][y]){
+                avisited[x][y+1] = true;
+                q.push({x,y+1});
+            }
+            if(check(x,y-1,m,n) && !avisited[x][y-1] && heights[x][y-1] >= heights[x][y]){
+                avisited[x][y-1] = true;
+                q.push({x,y-1});
+            }
+        }
+        vector<vector<int>>res;
+        for(int i = 0 ;i < m;i++){
+            for(int j = 0; j < n;j++){
+                vector<int>v(2);
+                if(pvisited[i][j] && avisited[i][j]){
+                    v[0] = i;
+                    v[1] = j;
+                    res.push_back(v);
+                }
+            }
+        }
+        return res;
+    }
+};

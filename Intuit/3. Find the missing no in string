@@ -1,0 +1,32 @@
+int getNum(string s,int startIndex,int size){
+    if(startIndex + size > s.size())return -1;
+    return stoi(s.substr(startIndex,size));
+}
+
+int missingNumber(const string& str)
+{
+    // Code here
+    for(int size = 1;size <= 6;size++){
+        int missing = -1;
+        bool inValid = false;
+        int num = getNum(str,0,size);
+        if(num == -1)continue;
+        int j = size;
+        while(j < str.size()){
+            num++;
+            int sizeNum = (int)floor(log10(num)) + 1;
+            if(getNum(str,j,sizeNum) == num){
+                j += sizeNum;
+            }else{
+                if(missing == -1){
+                    missing = num;
+                }else{
+                    inValid = true;
+                    break;
+                }
+            }
+        }
+        if(inValid == false)return missing;
+    }
+    return -1;
+}

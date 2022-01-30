@@ -1,0 +1,110 @@
+class Solution {
+public:
+    
+    bool check(int x,int y,int n){
+        if(x >= 0 && x < n && y >= 0 && y < n)return true;
+        return false;
+    }
+    int dis(int x0,int y0, int x1,int y1){
+        return abs(x0 - x1) + abs(y0 - y1);
+    }
+    int maxDistance(vector<vector<int>>& grid) {
+        int n = grid.size();
+        vector<vector<bool>>visited(n, vector<bool>(n , false));
+        vector<vector<int>>min_dis(n , vector<int>(n , 0));
+        queue<pair<int,int>>q;
+        for(int i = 0 ;i < n;i++){
+            for(int j = 0 ;j < n;j++){
+                if(grid[i][j] == 1){
+                    visited[i][j] = true;
+                    q.push({i,j});
+                }
+            }
+        }
+        if(q.size() == 0 || q.size() == n*n)return -1;
+        while(!q.empty()){
+            pair<int,int>p = q.front();
+            q.pop();
+            int x = p.first , y = p.second;
+            if(check(x+1,y,n) && grid[x+1][y] == 0){
+                if(visited[x+1][y] == false){
+                    visited[x+1][y] = true;
+                    min_dis[x+1][y] = min_dis[x][y] + dis(x,y,x+1,y);
+                    q.push({x+1,y});
+                }else{
+                    min_dis[x+1][y] = min(min_dis[x+1][y],min_dis[x][y] + dis(x,y,x+1,y));
+                }
+            }
+            if(check(x-1,y,n) && grid[x-1][y] == 0){
+                if(visited[x-1][y] == false){
+                    visited[x-1][y] = true;
+                    min_dis[x-1][y] = min_dis[x][y] + dis(x,y,x-1,y);
+                    q.push({x-1,y});
+                }else{
+                    min_dis[x-1][y] = min(min_dis[x-1][y],min_dis[x][y] + dis(x,y,x-1,y));
+                }
+            }
+            if(check(x,y+1,n) && grid[x][y+1] == 0){
+                if(visited[x][y+1] == false){
+                    visited[x][y+1] = true;
+                    min_dis[x][y+1] = min_dis[x][y] + dis(x,y,x,y+1);
+                    q.push({x,y+1});
+                }else{
+                    min_dis[x][y+1] = min(min_dis[x][y+1],min_dis[x][y] + dis(x,y,x,y+1));
+                }
+            }
+            if(check(x,y-1,n) && grid[x][y-1] == 0){
+                if(visited[x][y-1] == false){
+                    visited[x][y-1] = true;
+                    min_dis[x][y-1] = min_dis[x][y] + dis(x,y,x,y-1);
+                    q.push({x,y-1});
+                }else{
+                    min_dis[x][y-1] = min(min_dis[x][y-1],min_dis[x][y] + dis(x,y,x,y-1));
+                }
+            }
+            if(check(x+1,y+1,n) && grid[x+1][y+1] == 0){
+                if(visited[x+1][y+1] == false){
+                    visited[x+1][y+1] = true;
+                    min_dis[x+1][y+1] = min_dis[x][y] + dis(x,y,x+1,y+1);
+                    q.push({x+1,y+1});
+                }else{
+                    min_dis[x+1][y+1] = min(min_dis[x+1][y+1],min_dis[x][y] + dis(x,y,x+1,y+1));
+                }
+            }
+            if(check(x-1,y-1,n) && grid[x-1][y-1] == 0){
+                if(visited[x-1][y-1] == false){
+                    visited[x-1][y-1] = true;
+                    min_dis[x-1][y-1] = min_dis[x][y] + dis(x,y,x-1,y-1);
+                    q.push({x-1,y-1});
+                }else{
+                    min_dis[x-1][y-1] = min(min_dis[x-1][y-1],min_dis[x][y] + dis(x,y,x-1,y-1));
+                }
+            }
+            if(check(x+1,y-1,n) && grid[x+1][y-1] == 0){
+                if(visited[x+1][y-1] == false){
+                    visited[x+1][y-1] = true;
+                    min_dis[x+1][y-1] = min_dis[x][y] + dis(x,y,x+1,y-1);
+                    q.push({x+1,y-1});
+                }else{
+                    min_dis[x+1][y-1] = min(min_dis[x+1][y-1],min_dis[x][y] + dis(x,y,x+1,y-1));
+                }
+            }
+            if(check(x-1,y+1,n) && grid[x-1][y+1] == 0){
+                if(visited[x-1][y+1] == false){
+                    visited[x-1][y+1] = true;
+                    min_dis[x-1][y+1] = min_dis[x][y] + dis(x,y,x-1,y+1);
+                    q.push({x-1,y+1});
+                }else{
+                    min_dis[x-1][y+1] = min(min_dis[x-1][y+1],min_dis[x][y] + dis(x,y,x-1,y+1));
+                }
+            }
+        }
+        int max_dist = INT_MIN;
+        for(int i = 0; i < n;i++){
+            for(int j = 0; j < n;j++){
+                max_dist = max(max_dist,min_dis[i][j]);
+            }
+        }
+        return max_dist;
+    }
+};

@@ -1,0 +1,100 @@
+/*
+// Definition for a QuadTree node.
+class Node {
+public:
+    bool val;
+    bool isLeaf;
+    Node* topLeft;
+    Node* topRight;
+    Node* bottomLeft;
+    Node* bottomRight;
+    
+    Node() {
+        val = false;
+        isLeaf = false;
+        topLeft = NULL;
+        topRight = NULL;
+        bottomLeft = NULL;
+        bottomRight = NULL;
+    }
+    
+    Node(bool _val, bool _isLeaf) {
+        val = _val;
+        isLeaf = _isLeaf;
+        topLeft = NULL;
+        topRight = NULL;
+        bottomLeft = NULL;
+        bottomRight = NULL;
+    }
+    
+    Node(bool _val, bool _isLeaf, Node* _topLeft, Node* _topRight, Node* _bottomLeft, Node* _bottomRight) {
+        val = _val;
+        isLeaf = _isLeaf;
+        topLeft = _topLeft;
+        topRight = _topRight;
+        bottomLeft = _bottomLeft;
+        bottomRight = _bottomRight;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* construct(vector<vector<int>>& grid) {
+        int n = grid.size();
+        int cnt[2] = {0,0},flg = 0;
+        for(int i = 0; i < n;i++){
+            for(int j = 0; j < n;j++){
+                cnt[grid[i][j]]++;
+                if(cnt[0] != 0 && cnt[1] != 0){
+                    flg = 1;
+                    break;
+                }
+            }
+            if(flg == 1)break;
+        }
+        if(flg == 0){
+            int val = cnt[0]==0?1:0;
+            Node *curr = new Node(val,true);
+            return curr;
+        }
+        vector<vector<int>>top_left;
+        for(int i = 0; i < n/2;i++){
+            vector<int>v;
+            for(int j = 0; j < n/2;j++){
+                v.push_back(grid[i][j]);
+            }
+            top_left.push_back(v);
+        }
+        vector<vector<int>>top_right;
+        for(int i = 0; i < n/2;i++){
+            vector<int>v;
+            for(int j = n/2; j < n;j++){
+                v.push_back(grid[i][j]);
+            }
+            top_right.push_back(v);
+        }
+        vector<vector<int>>bottom_left;
+        for(int i = n/2; i < n;i++){
+            vector<int>v;
+            for(int j = 0; j < n/2;j++){
+                v.push_back(grid[i][j]);
+            }
+            bottom_left.push_back(v);
+        }
+        vector<vector<int>>bottom_right;
+        for(int i = n/2; i < n;i++){
+            vector<int>v;
+            for(int j = n/2; j < n;j++){
+                v.push_back(grid[i][j]);
+            }
+            bottom_right.push_back(v);
+        }
+        Node *top_l = construct(top_left);
+        Node *top_r = construct(top_right);
+        Node *bottom_l = construct(bottom_left);
+        Node *bottom_r = construct(bottom_right);
+        Node *curr = new Node(true,false,top_l,top_r,bottom_l,bottom_r);
+        return curr;
+    }
+};

@@ -1,0 +1,31 @@
+class Solution {
+public:
+    
+    bool isValid(vector<int>& arr,int days,int max_){
+        int curr_days = 1,sum = 0;
+        for(auto it : arr){
+            sum += it;
+            if(sum > max_){
+                curr_days++;
+                sum = it;
+            }
+            if(curr_days > days)return false;
+        }
+        return true;
+    }
+    int shipWithinDays(vector<int>& weights, int days) {
+        int low = *max_element(weights.begin(),weights.end());
+        int high = accumulate(weights.begin(),weights.end(),0);
+        int res = -1;
+        while(low <= high){
+            int mid = low + (high-low)/2;
+            if(isValid(weights,days,mid)){
+                res = mid;
+                high = mid-1;
+            }else{
+                low = mid+1;
+            }
+        }
+        return res;
+    }
+};

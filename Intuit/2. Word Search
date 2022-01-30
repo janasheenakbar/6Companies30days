@@ -1,0 +1,48 @@
+class Solution {
+public:
+
+    bool isSafe(int x,int y,int n,int m){
+        if(x >= 0 && x < n && y >= 0 && y < m)return true;
+        return false;
+    }
+    bool search(vector<vector<char>> &board , vector<vector<bool>> &visited,string word,int ind ,int x,int y){
+        if(ind == word.size())return true;
+        if(board[x][y] != word[ind])return false;
+        if(board[x][y] == word[ind]){
+            if(visited[x][y] == true)return false;
+            visited[x][y] = true;
+            int n = board.size(),m = board[0].size();
+            bool ans = false;
+            if(isSafe(x+1,y,n,m)){
+                ans = ans || search(board,visited,word,ind+1,x+1,y);
+            }
+            if(isSafe(x-1,y,n,m)){
+                ans = ans || search(board,visited,word,ind+1,x-1,y);
+            }
+            if(isSafe(x,y+1,n,m)){
+                ans = ans || search(board,visited,word,ind+1,x,y+1);
+            }
+            if(isSafe(x,y-1,n,m)){
+                ans = ans || search(board,visited,word,ind+1,x,y-1);
+            }
+            visited[x][y] = false;
+            return ans;
+        }
+    }
+    
+    bool isWordExist(vector<vector<char>>& board, string word) {
+        // Code here
+        int n = board.size(),m = board[0].size();
+        vector<vector<bool>>visited(n , vector<bool>(m , false));
+        for(int i = 0; i < n;i++){
+            for(int j = 0; j < m;j++){
+                if(board[i][j] == word[0]){
+                    bool ans = search(board,visited,word,0,i,j);
+                    if(ans)return true;
+                }
+            }
+        }
+        return false;
+        
+    }
+};
